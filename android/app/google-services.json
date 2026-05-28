@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "316730677708",
+    "project_id": "aiqr-8f37f",
+    "storage_bucket": "aiqr-8f37f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316730677708:android:3c3358e85f906c5f81a569",
+        "android_client_info": {
+          "package_name": "com.tarurinfotech.aiqr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkm0Fw5pCfAOqDCisuHLaoCQMszw2iCzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

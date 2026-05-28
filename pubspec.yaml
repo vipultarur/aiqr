@@ -1,0 +1,84 @@
+name: aiqr_app
+description: "A modern, fast, and secure QR code scanner and generator. Scan anything, create custom QR codes, and keep track of your history—all in one place."
+publish_to: 'none'
+version: 1.0.6+7
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_ringtone_player: ^4.0.0+4
+  get: ^4.7.3
+  image_gallery_saver_plus: ^4.0.1
+  image_picker: ^1.2.1
+  intl: ^0.20.2
+  mobile_scanner: ^7.2.0
+  path_provider: ^2.1.5
+  qr_flutter: ^4.1.0
+  share_plus: any
+  shared_preferences: ^2.5.4
+  timeago: ^3.7.1
+  url_launcher: ^6.3.2
+  uuid: ^4.5.3
+  vibration: ^3.1.7
+
+  flutter_file_dialog: ^3.0.3
+  pretty_qr_code: ^3.6.0
+  file_picker: ^11.0.2
+  google_mobile_ads: ^8.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  # package_rename: ^1.10.1
+  # flutter_launcher_icons: ^0.14.4
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/branding/aiar_fore.png
+    - assets/sounds/
+    - assets/logo/logo.png
+    
+  fonts:
+    - family: DMSans
+      fonts:
+        - asset: assets/fonts/DMSans-Bold.ttf
+          weight: 700
+    - family: GSansFlex
+      fonts:
+        - asset: assets/fonts/GSansFlex-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/GSansFlex-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/GSansFlex-SemiBold.ttf
+          weight: 600
+
+
+# package_rename_config:
+#   android:
+#     app_name: "aiar QR" # Display name
+#     package_name: "com.jdmakes.aiqr" # Package name
+#     override_old_package: "com.jdmakes.aiqr" # Optional: Cleans up old folder structure
+#     lang: "kotlin" # Optional: "kotlin" (default) or "java"
+
+#   ios:
+#     app_name: "aiar QR" # Display name
+#     bundle_name: "aiar QR" # Bundle name
+#     package_name: "com.jdmakes.aiqr" # Product Bundle Identifier
+
+# flutter_launcher_icons:
+#   image_path_android: "assets/branding/aiar_branding.png"
+#   image_path_ios: "assets/branding/aiar_branding.png"
+#   android: true
+#   ios: true
+#   adaptive_icon_background: "#ffffff"
+#   adaptive_icon_foreground: "assets/branding/aiar_fore.png"
+#   adaptive_icon_foreground_inset: 16
+#   adaptive_icon_monochrome: "assets/branding/aiar_mono.png"
+#   min_sdk_android: 21
+#   remove_alpha_ios: true
+#   background_color_ios: "#ffffff"
