@@ -1,0 +1,77 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:aiqr_app/core/widgets/build_base_bottom_sheet.dart';
+import 'package:aiqr_app/core/widgets/gradient_button.dart';
+
+class RenameBottomSheet extends StatelessWidget {
+  final TextEditingController nameController;
+  final Function onConfirm;
+  final String? title;
+  const RenameBottomSheet({
+    super.key,
+    required this.nameController,
+    required this.onConfirm,
+    this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    nameController.text = title ?? '';
+    return BaseBottomSheet(
+      children: [
+        Text(
+          'Edit Name',
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: nameController,
+          style: TextStyle(color: isDark ? Colors.white : Colors.black),
+          decoration: InputDecoration(
+            hintText: 'Enter a custom name',
+            hintStyle: TextStyle(
+              color: isDark ? Colors.grey[600] : Colors.grey[400],
+            ),
+          ),
+        ),
+        const SizedBox(height: 56),
+        Row(
+          spacing: 12,
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isDark ? Colors.grey[800] : Colors.grey[100],
+                  foregroundColor: isDark ? Colors.white : Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 0,
+                ),
+                onPressed: () => Get.back<void>(),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                ),
+              ),
+            ),
+            Expanded(
+              child: GradientButton(
+                onPressed: () => onConfirm(),
+                child: const Text(
+                  'Confirm',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

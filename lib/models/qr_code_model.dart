@@ -47,13 +47,14 @@ class QrCodeRecord {
   }
 
   factory QrCodeRecord.fromMap(Map<String, dynamic> map) {
+    // PRESERVED: field names match the stored JSON keys exactly
     return QrCodeRecord(
-      id: map['id'] ?? '',
-      title: map['title'],
-      data: map['data'] ?? '',
-      type: map['type'] ?? '',
-      format: map['format'] ?? '',
-      timestamp: DateTime.parse(map['timestamp']),
+      id: (map['id'] as String?) ?? '',
+      title: map['title'] as String?,
+      data: (map['data'] as String?) ?? '',
+      type: (map['type'] as String?) ?? '',
+      format: (map['format'] as String?) ?? '',
+      timestamp: DateTime.parse((map['timestamp'] as String?) ?? ''),
     );
   }
 
@@ -62,7 +63,7 @@ class QrCodeRecord {
 
   // Convert from JSON
   factory QrCodeRecord.fromJson(String source) =>
-      QrCodeRecord.fromMap(json.decode(source));
+      QrCodeRecord.fromMap(json.decode(source) as Map<String, dynamic>);
 
   /// Helper to determine suitable icon based on format
   String get iconName {

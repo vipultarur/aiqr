@@ -29,6 +29,8 @@ dependencies:
   file_picker: ^11.0.2
   google_mobile_ads: ^8.0.0
 
+  qr: any
+  firebase_core: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

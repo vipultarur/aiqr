@@ -1,40 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:aiqr_app/controllers/qr_maker_controller.dart';
-import 'routes/app_routes.dart';
-import 'theme/app_theme.dart';
-import 'controllers/history_controller.dart';
-import 'services/settings_service.dart';
-import 'controllers/settings_controller.dart';
+import 'package:aiqr_app/features/generator/controllers/qr_maker_controller.dart';
+import 'package:aiqr_app/routes/app_routes.dart';
+import 'package:aiqr_app/core/theme/app_theme.dart';
+import 'package:aiqr_app/features/history/controllers/history_controller.dart';
+import 'package:aiqr_app/features/settings/services/settings_service.dart';
+import 'package:aiqr_app/features/settings/controllers/settings_controller.dart';
+import 'dart:async';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
 
-  // Initialize and inject Settings Service
+  // Show UI on the first frame, defer heavy init below.
+  runApp(const AiarApp());
+
+  // Yield to let the first frame render.
+  await Future<void>.delayed(Duration.zero);
+
+  // ── Deferred initialisation ──────────────────────────────────────────────────
+  unawaited(MobileAds.instance.initialize());
+
   final settingsService = await SettingsService().init();
   Get.put(settingsService);
-
-  // Initialize Settings Controller
   Get.put(SettingsController(Get.find<SettingsService>()));
-
-  // Initialize History Controllers
   Get.put(HistoryController());
-
-  // Initialize QR Maker Controller
   Get.put(QrMakerController());
-
-  runApp(const aiarApp());
 }
 
-class aiarApp extends StatelessWidget {
-  const aiarApp({super.key});
+/// Root application widget.
+class AiarApp extends StatelessWidget {
+  const AiarApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SettingsController settingsController =
-        Get.find<SettingsController>();
+    final settingsController = Get.find<SettingsController>();
 
     return GetMaterialApp(
       title: 'aiar QR',
