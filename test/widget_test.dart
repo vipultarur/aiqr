@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:aiqr_app/main.dart';
 
 void main() {
-  testWidgets('App smoke test — AiarApp renders without crashing', (tester) async {
-    await tester.pumpWidget(const AiarApp());
+  testWidgets('App smoke test — aiqrApp renders without crashing', (tester) async {
+    await tester.pumpWidget(const AiqrApp());
     expect(find.byType(MaterialApp), findsWidgets);
   });
 }

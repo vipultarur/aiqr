@@ -171,11 +171,34 @@ class _GalleryScanScreenState extends State<GalleryScanScreen> {
                     ),
                   )
                 else
-                  const Column(
+                  Column(
                     children: [
-                      CircularProgressIndicator(color: Colors.white),
-                      SizedBox(height: 16),
-                      Text(
+                      SizedBox(
+                        width: 200,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: ShaderMask(
+                            shaderCallback: (bounds) {
+                              return const LinearGradient(
+                                colors: [
+                                  Color(0xFF4285F4), // Blue
+                                  Color(0xFFEA4335), // Red
+                                  Color(0xFFFBBC05), // Yellow
+                                  Color(0xFF34A853), // Green
+                                ],
+                              ).createShader(bounds);
+                            },
+                            child: LinearProgressIndicator(
+                              backgroundColor: Colors.transparent,
+                              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                              minHeight: 8,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
                         'Scanning for QR codes...',
                         style: TextStyle(
                           color: Colors.white,

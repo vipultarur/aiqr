@@ -82,7 +82,7 @@ class _BinaryQrCreatorScreenState extends State<BinaryQrCreatorScreen> {
     }
     // PRESERVED: mock URL format that encodes the file reference as a QR payload
     _controller.textController.text =
-        'https://aiar.app/file/${widget.initialType.toLowerCase()}/${_selectedFileName?.replaceAll(' ', '_')}';
+        'https://aiqr.app/file/${widget.initialType.toLowerCase()}/${_selectedFileName?.replaceAll(' ', '_')}';
     _controller.generateQrCode();
     _controller.focusNode2.unfocus();
   }
@@ -161,7 +161,7 @@ class _FilePickerArea extends StatelessWidget {
         height: 200,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isDark ? Colors.grey[800] : Colors.grey[100],
+          color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
           borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
           border: Border.all(
             color: hasFile
@@ -220,7 +220,7 @@ class _TitleField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
           horizontal: AppDimensions.md, vertical: AppDimensions.xs),
       decoration: BoxDecoration(
-        color: isDark ? Colors.grey[800] : Colors.grey[100],
+        color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
         borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
       ),
       child: TextField(

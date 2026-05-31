@@ -12,8 +12,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final AdService _adService = AdService();
-  bool _adLoaded = false;
-  bool _adFailed = false;
+  bool _hasNavigated = false;
 
   @override
   void initState() {
@@ -22,52 +21,85 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _loadAdAndNavigate() {
-    // Add a minimum delay for the splash screen so it doesn't just flash
-    final minDelay = Future.delayed(const Duration(seconds: 2));
+    // PERF: Reduced from 2s to 1s — users perceive the app as faster.
+    // We also set a hard timeout so a slow ad network never blocks launch.
+    final minDelay = Future.delayed(const Duration(milliseconds: 1000));
+    final hardTimeout = Future.delayed(const Duration(seconds: 6));
 
     _adService.loadAppOpenAd(
-      onAdLoaded: () {
-        setState(() => _adLoaded = true);
-        _proceedToMain(minDelay);
-      },
-      onAdFailedToLoad: () {
-        setState(() => _adFailed = true);
-        _proceedToMain(minDelay);
-      },
+      onAdLoaded: () => _proceedToMain(minDelay, showAd: true),
+      onAdFailedToLoad: () => _proceedToMain(minDelay, showAd: false),
     );
+
+    // Hard timeout: if nothing happened after 6s, force navigate.
+    hardTimeout.then((_) => _navigateNow());
   }
 
-  void _proceedToMain(Future<void> minDelay) async {
+  void _proceedToMain(Future<void> minDelay, {required bool showAd}) async {
     await minDelay;
-    if (_adLoaded) {
+    if (_hasNavigated) return;
+
+    if (showAd) {
       _adService.showAppOpenAdIfAvailable(
-        onAdDismissed: () {
-          Get.offAllNamed(AppRoutes.main);
-        },
+        onAdDismissed: () => _navigateNow(),
       );
     } else {
-      Get.offAllNamed(AppRoutes.main);
+      _navigateNow();
     }
+  }
+
+  void _navigateNow() {
+    if (_hasNavigated) return;
+    _hasNavigated = true;
+    Get.offAllNamed(AppRoutes.main);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
+      body: Stack(
+        children: [
+          Center(
+            child: Image.asset(
               'assets/logo/logo.png',
               width: 150,
               height: 150,
               errorBuilder: (context, error, stackTrace) => const Icon(Icons.qr_code_scanner, size: 100),
             ),
-            const SizedBox(height: 24),
-            const CircularProgressIndicator(),
-          ],
-        ),
+          ),
+          Positioned(
+            bottom: 60,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: SizedBox(
+                width: 200,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: ShaderMask(
+                    shaderCallback: (bounds) {
+                      return const LinearGradient(
+                        colors: [
+                          Color(0xFF4285F4), // Blue
+                          Color(0xFFEA4335), // Red
+                          Color(0xFFFBBC05), // Yellow
+                          Color(0xFF34A853), // Green
+                        ],
+                      ).createShader(bounds);
+                    },
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.transparent,
+                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                      minHeight: 8,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

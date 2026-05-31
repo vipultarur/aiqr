@@ -7,7 +7,7 @@
 abstract final class AssetConstants {
   // ── Images ───────────────────────────────────────────────────────────────────
   static const String logoImage = 'assets/logo/logo.png';
-  static const String brandingFore = 'assets/branding/aiar_fore.png';
+  static const String brandingFore = 'assets/branding/aiqr_fore.png';
 
   // ── Sounds ───────────────────────────────────────────────────────────────────
   // PRESERVED: referenced by FlutterRingtonePlayer — path cannot change

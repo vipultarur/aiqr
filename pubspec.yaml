@@ -1,7 +1,7 @@
 name: aiqr_app
 description: "A modern, fast, and secure QR code scanner and generator. Scan anything, create custom QR codes, and keep track of your history—all in one place."
 publish_to: 'none'
-version: 1.0.6+7
+version: 1.0.3+3
 
 environment:
   sdk: ^3.11.0
@@ -30,20 +30,28 @@ dependencies:
   google_mobile_ads: ^8.0.0
 
   qr: any
-  firebase_core: any
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
+  google_sign_in: ^6.2.1
+  intl_phone_field: ^3.2.0
+  fl_chart: ^1.2.0
+  flutter_colorpicker: ^1.1.0
+  in_app_review: ^2.0.12
+  package_info_plus: ^9.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
   # package_rename: ^1.10.1
-  # flutter_launcher_icons: ^0.14.4
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
   assets:
-    - assets/branding/aiar_fore.png
     - assets/sounds/
     - assets/logo/logo.png
+    - assets/logo/logo_new.png
     
   fonts:
     - family: DMSans
@@ -62,25 +70,24 @@ flutter:
 
 # package_rename_config:
 #   android:
-#     app_name: "aiar QR" # Display name
+#     app_name: "Ai Qr" # Display name
 #     package_name: "com.jdmakes.aiqr" # Package name
 #     override_old_package: "com.jdmakes.aiqr" # Optional: Cleans up old folder structure
 #     lang: "kotlin" # Optional: "kotlin" (default) or "java"
 
 #   ios:
-#     app_name: "aiar QR" # Display name
-#     bundle_name: "aiar QR" # Bundle name
+#     app_name: "Ai Qr" # Display name
+#     bundle_name: "Ai Qr" # Bundle name
 #     package_name: "com.jdmakes.aiqr" # Product Bundle Identifier
 
-# flutter_launcher_icons:
-#   image_path_android: "assets/branding/aiar_branding.png"
-#   image_path_ios: "assets/branding/aiar_branding.png"
-#   android: true
-#   ios: true
-#   adaptive_icon_background: "#ffffff"
-#   adaptive_icon_foreground: "assets/branding/aiar_fore.png"
-#   adaptive_icon_foreground_inset: 16
-#   adaptive_icon_monochrome: "assets/branding/aiar_mono.png"
-#   min_sdk_android: 21
-#   remove_alpha_ios: true
-#   background_color_ios: "#ffffff"
+flutter_launcher_icons:
+  image_path_android: "assets/logo/logo_new.png"
+  image_path_ios: "assets/logo/logo_new.png"
+  android: true
+  ios: true
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/logo/logo_new.png"
+  adaptive_icon_foreground_inset: 16
+  min_sdk_android: 21
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff"

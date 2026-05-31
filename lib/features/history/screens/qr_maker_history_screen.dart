@@ -7,10 +7,8 @@ import 'package:aiqr_app/core/theme/app_dimensions.dart';
 import 'package:aiqr_app/core/theme/app_theme.dart';
 import 'package:aiqr_app/features/history/widgets/history_item.dart';
 import 'package:aiqr_app/features/history/controllers/history_controller.dart';
-import 'package:aiqr_app/features/scanner/widgets/scan_result_bottom_sheet.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:aiqr_app/features/generator/screens/string_qr_creator_screen.dart';
-import 'package:aiqr_app/features/generator/screens/binary_qr_creator_screen.dart';
 import 'package:aiqr_app/features/generator/screens/all_qr_types_screen.dart';
 import 'package:aiqr_app/routes/app_routes.dart';
 import 'package:aiqr_app/core/ads/banner_ad_widget.dart';
@@ -37,11 +35,12 @@ class QrMakerHistoryScreen extends StatelessWidget {
             children: [
               _HomeHeader(isDark: isDark),
               const BannerAdWidget(),
+              const SizedBox(height: AppDimensions.md),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.only(
-                    left: AppDimensions.md,
-                    right: AppDimensions.md,
+                    left: AppDimensions.lg,
+                    right: AppDimensions.lg,
                     bottom: AppDimensions.listBottomPadding,
                   ),
                   children: [
@@ -85,7 +84,7 @@ class _HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'aiar QR',
+                'Ai Qr',
                 style: theme.textTheme.headlineMedium
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
@@ -108,9 +107,10 @@ class _SettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? Colors.grey[800] : Colors.white,
+        color: isDark ? theme.colorScheme.surface : Colors.white,
         shape: BoxShape.circle,
         boxShadow: [
           if (!isDark)
@@ -238,11 +238,7 @@ class _HistoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.bottomSheet(
-        ScanResultBottomSheet(record: record),
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-      ),
+      onTap: () => Get.toNamed('/scanResult', arguments: record),
       child: HistoryItem(
         title: record.title ??
             (record.type == 'scan'
@@ -285,10 +281,10 @@ class _ActionGrid extends StatelessWidget {
             Expanded(
               child: _ActionButton(
                 isDark: isDark,
-                title: 'PDF',
-                icon: Icons.picture_as_pdf,
+                title: 'Wi-Fi',
+                icon: Icons.wifi,
                 onTap: () => Get.to(
-                  () => const BinaryQrCreatorScreen(initialType: 'PDF'),
+                  () => const StringQrCreatorScreen(initialType: 'Wi-Fi'),
                 ),
               ),
             ),
@@ -311,10 +307,10 @@ class _ActionGrid extends StatelessWidget {
             Expanded(
               child: _ActionButton(
                 isDark: isDark,
-                title: 'Image',
-                icon: Icons.image,
+                title: 'Number',
+                icon: Icons.phone,
                 onTap: () => Get.to(
-                  () => const BinaryQrCreatorScreen(initialType: 'Image'),
+                  () => const StringQrCreatorScreen(initialType: 'Number'),
                 ),
               ),
             ),
@@ -390,7 +386,7 @@ class _ActionButton extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: isDark
-                    ? Colors.grey[800]
+                    ? colorScheme.tertiary
                     : theme.primaryColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
@@ -409,7 +405,7 @@ class _ActionButton extends StatelessWidget {
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: isDark
-                    ? Colors.grey[800]
+                    ? colorScheme.tertiary
                     : const Color(0xFFF3F0FF),
                 shape: BoxShape.circle,
               ),

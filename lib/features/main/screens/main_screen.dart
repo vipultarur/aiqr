@@ -18,6 +18,14 @@ class _MainScreenState extends State<MainScreen> {
   // Initialize controller
   final BottomNavController controller = Get.put(BottomNavController());
 
+  // PERF: Build pages once and reuse. Using late final so they are created
+  // only when the MainScreen is first built, not at import time.
+  late final List<Widget> _pages = const [
+    QrScannerScreen(),
+    QrMakerHistoryScreen(),
+    ScanSavedHistoryScreen(),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -34,18 +42,14 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [
-      const QrScannerScreen(),
-      const QrMakerHistoryScreen(),
-      const ScanSavedHistoryScreen(), // Example mapping to history button
-    ];
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Obx(
-        () =>
-            IndexedStack(index: controller.currentIndex.value, children: pages),
-      ),
+      body: Obx(() {
+        // PERF: Only show the active page. Prevents hidden platform views
+        // (like AdMob BannerAds) from loading in the background.
+        // This solves the fatal Android Hybrid Composition log spam crash!
+        return _pages[controller.currentIndex.value];
+      }),
       floatingActionButton: const BottomNavBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

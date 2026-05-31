@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:aiqr_app/features/scanner/controllers/qr_scanner_controller.dart';
 import 'package:aiqr_app/features/scanner/widgets/scan_frame.dart';
-import 'package:aiqr_app/core/ads/banner_ad_widget.dart';
+
 
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({super.key});
@@ -78,13 +78,6 @@ class QrScannerScreen extends StatelessWidget {
             ),
           ),
 
-          // Banner Ad
-          const Positioned(
-            top: 130,
-            left: 0,
-            right: 0,
-            child: BannerAdWidget(),
-          ),
 
           // Scanner Frame
           Center(

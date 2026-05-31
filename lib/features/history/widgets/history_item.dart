@@ -86,7 +86,7 @@ class HistoryItem extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isDark ? Colors.grey[800]! : Colors.grey[300]!,
+                color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[300]!,
               ),
             ),
             padding: const EdgeInsets.all(2),

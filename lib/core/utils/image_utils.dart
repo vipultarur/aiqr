@@ -104,7 +104,7 @@ class ImageUtils {
           files: [XFile(file.path)],
           text:
               subject ??
-              'Check out this QR Code!\n\nGenerated with aiar QR\nhttps://github.com/jydv402/aiqr',
+              'Check out this QR Code!\n\nGenerated with Ai Qr\nhttps://github.com/jydv402/aiqr',
         ),
       );
     } catch (e) {

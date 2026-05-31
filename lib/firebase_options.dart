@@ -42,48 +42,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB8G7HvD1wAmfdup5amQ5B4MRNW9eIdXKY',
-    appId: '1:316730677708:web:630b5789840a09bf81a569',
-    messagingSenderId: '316730677708',
-    projectId: 'aiqr-8f37f',
-    authDomain: 'aiqr-8f37f.firebaseapp.com',
-    storageBucket: 'aiqr-8f37f.firebasestorage.app',
-    measurementId: 'G-NEDLYBLXN4',
+    apiKey: 'AIzaSyA9XT5kCCbkF-Gwj5O5r9m6O6EcFn-_Wl8',
+    appId: '1:57390313191:web:5b88a6fa6421e1e7f07c42',
+    messagingSenderId: '57390313191',
+    projectId: 'aiqr-a0d91',
+    authDomain: 'aiqr-a0d91.firebaseapp.com',
+    storageBucket: 'aiqr-a0d91.firebasestorage.app',
+    measurementId: 'G-B238BP38HC',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAkm0Fw5pCfAOqDCisuHLaoCQMszw2iCzg',
-    appId: '1:316730677708:android:3c3358e85f906c5f81a569',
-    messagingSenderId: '316730677708',
-    projectId: 'aiqr-8f37f',
-    storageBucket: 'aiqr-8f37f.firebasestorage.app',
+    apiKey: 'AIzaSyDspjCR_jcZ03w_jHBybqF2afZ8WoZku_8',
+    appId: '1:57390313191:android:d6ca6f77f8402555f07c42',
+    messagingSenderId: '57390313191',
+    projectId: 'aiqr-a0d91',
+    storageBucket: 'aiqr-a0d91.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD6AW01AyCGGqp734p6oa4kZ6qLfNkMsoE',
-    appId: '1:316730677708:ios:4227939de1c1a57f81a569',
-    messagingSenderId: '316730677708',
-    projectId: 'aiqr-8f37f',
-    storageBucket: 'aiqr-8f37f.firebasestorage.app',
+    apiKey: 'AIzaSyA2fzNmBmoADTF4U6zdtkEKO-vlW1DiREg',
+    appId: '1:57390313191:ios:73c99d3302e97c77f07c42',
+    messagingSenderId: '57390313191',
+    projectId: 'aiqr-a0d91',
+    storageBucket: 'aiqr-a0d91.firebasestorage.app',
     iosBundleId: 'com.tarurinfotech.aiqr',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD6AW01AyCGGqp734p6oa4kZ6qLfNkMsoE',
-    appId: '1:316730677708:ios:4227939de1c1a57f81a569',
-    messagingSenderId: '316730677708',
-    projectId: 'aiqr-8f37f',
-    storageBucket: 'aiqr-8f37f.firebasestorage.app',
+    apiKey: 'AIzaSyA2fzNmBmoADTF4U6zdtkEKO-vlW1DiREg',
+    appId: '1:57390313191:ios:73c99d3302e97c77f07c42',
+    messagingSenderId: '57390313191',
+    projectId: 'aiqr-a0d91',
+    storageBucket: 'aiqr-a0d91.firebasestorage.app',
     iosBundleId: 'com.tarurinfotech.aiqr',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyB8G7HvD1wAmfdup5amQ5B4MRNW9eIdXKY',
-    appId: '1:316730677708:web:375a9674ed13b16981a569',
-    messagingSenderId: '316730677708',
-    projectId: 'aiqr-8f37f',
-    authDomain: 'aiqr-8f37f.firebaseapp.com',
-    storageBucket: 'aiqr-8f37f.firebasestorage.app',
-    measurementId: 'G-PRHSQS6DM9',
+    apiKey: 'AIzaSyA9XT5kCCbkF-Gwj5O5r9m6O6EcFn-_Wl8',
+    appId: '1:57390313191:web:ed2c3bc174d50f4cf07c42',
+    messagingSenderId: '57390313191',
+    projectId: 'aiqr-a0d91',
+    authDomain: 'aiqr-a0d91.firebaseapp.com',
+    storageBucket: 'aiqr-a0d91.firebasestorage.app',
+    measurementId: 'G-0RC545J0ET',
   );
+
 }

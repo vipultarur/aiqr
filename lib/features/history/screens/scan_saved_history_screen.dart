@@ -4,7 +4,6 @@ import 'package:aiqr_app/core/constants/app_constants.dart';
 import 'package:aiqr_app/core/theme/app_dimensions.dart';
 import 'package:aiqr_app/features/history/widgets/history_item.dart';
 import 'package:aiqr_app/features/history/controllers/history_controller.dart';
-import 'package:aiqr_app/features/scanner/widgets/scan_result_bottom_sheet.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:aiqr_app/core/theme/app_theme.dart';
 import 'package:aiqr_app/routes/app_routes.dart';
@@ -281,11 +280,7 @@ class _RecordTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.bottomSheet(
-        ScanResultBottomSheet(record: record),
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-      ),
+      onTap: () => Get.toNamed('/scanResult', arguments: record),
       child: HistoryItem(
         title: record.title ??
             (record.type == 'scan'

@@ -4,7 +4,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:aiqr_app/models/qr_code_model.dart';
 import 'package:aiqr_app/features/history/controllers/history_controller.dart';
 import 'package:uuid/uuid.dart';
-import 'package:aiqr_app/features/scanner/widgets/scan_result_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
@@ -13,6 +12,7 @@ import 'package:aiqr_app/features/settings/controllers/settings_controller.dart'
 import 'package:aiqr_app/features/main/controllers/bottom_nav_controller.dart';
 import 'package:aiqr_app/core/ads/ad_service.dart';
 import 'dart:async';
+import 'package:in_app_review/in_app_review.dart';
 
 class QrScannerController extends GetxController {
   final MobileScannerController mobileController = MobileScannerController(
@@ -53,14 +53,20 @@ class QrScannerController extends GetxController {
         }
       });
 
-      ever(bottomNavController.currentIndex, (int index) {
+      ever(bottomNavController.currentIndex, (int index) async {
         if (index == 0) {
           // Navigated back to Scanner tab
           resumeScanning();
         } else {
           // Navigated away from Scanner tab
-          isScanning.value = false;
-          mobileController.stop();
+          if (isScanning.value) {
+            isScanning.value = false;
+            try {
+              await mobileController.stop();
+            } catch (e) {
+              debugPrint('Error stopping scanner: $e');
+            }
+          }
         }
       });
     }
@@ -90,7 +96,11 @@ class QrScannerController extends GetxController {
       if (rawValue.isNotEmpty) {
         // Pause to prevent multiple detections of the same code
         isScanning.value = false;
-        unawaited(mobileController.stop());
+        try {
+          await mobileController.stop();
+        } catch (e) {
+          debugPrint('Error stopping scanner: $e');
+        }
 
         // Provide haptic feedback
         if (_settingsController.hapticFeedback.value) {
@@ -141,18 +151,28 @@ class QrScannerController extends GetxController {
           );
         }
 
-        // Show Bottom Sheet here with deduplicated record
+        // Navigate to ScanResultScreen here with deduplicated record
         AdService.showInterstitialAd(onAdDismissed: () async {
-          await Get.bottomSheet<void>(
-            ScanResultBottomSheet(record: savedRecord),
-            isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-          );
+          await Get.toNamed<void>('/scanResult', arguments: savedRecord);
+
+          // Request review after scanning process is complete (user viewed result)
+          _requestReview();
 
           // Resume scanning after bottom sheet is dismissed
           resumeScanning();
         });
       }
+    }
+  }
+
+  Future<void> _requestReview() async {
+    try {
+      final InAppReview inAppReview = InAppReview.instance;
+      if (await inAppReview.isAvailable()) {
+        await inAppReview.requestReview();
+      }
+    } catch (e) {
+      debugPrint("InAppReview error: $e");
     }
   }
 

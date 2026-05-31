@@ -3,12 +3,10 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 // import 'package:update_checker_bottom_sheet/update_checker_bottom_sheet.dart';
 import 'package:aiqr_app/features/settings/services/settings_service.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsController extends GetxController {
-  static const String appVersion = String.fromEnvironment(
-    'APP_VERSION',
-    defaultValue: 'null:debug',
-  );
+  var appVersion = ''.obs;
 
   final SettingsService _service;
 
@@ -25,6 +23,16 @@ class SettingsController extends GetxController {
   void onInit() {
     super.onInit();
     _loadSettings();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      appVersion.value = info.version;
+    } catch (e) {
+      appVersion.value = 'Unknown';
+    }
   }
 
   void _loadSettings() {
@@ -100,12 +108,12 @@ class SettingsController extends GetxController {
   /// Opens share sheet with the message to send to others
   void shareApp() {
     const String shareMsg =
-        'Hi there,\nCheck out aiar QR🦎!\n\nIt\'s a super fast and beautiful QR scanner and generator I\'ve been using. Makes handling QR codes so much easier.\n\n'
+        'Hi there,\nCheck out Ai Qr🦎!\n\nIt\'s a super fast and beautiful QR scanner and generator I\'ve been using. Makes handling QR codes so much easier.\n\n'
         'Explore the project: https://github.com/jydv402/aiqr\n\n'
         'Get the latest app: https://github.com/jydv402/aiqr/releases/latest';
 
     SharePlus.instance.share(
-      ShareParams(subject: 'Share aiar QR with others', text: shareMsg),
+      ShareParams(subject: 'Share Ai Qr with others', text: shareMsg),
     );
   }
 }

@@ -70,23 +70,23 @@ class SettingsScreen extends StatelessWidget {
                   child: FractionallySizedBox(
                     widthFactor: 0.75,
                     heightFactor: 0.75,
-                    child: Image.asset('assets/branding/aiar_fore.png'),
+                    child: Image.asset('assets/logo/logo.png'),
                   ),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'aiar QR',
+                  'Ai Qr',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  'Version ${SettingsController.appVersion}',
+                Obx(() => Text(
+                  'Version ${settingsController.appVersion.value}',
                   style: TextStyle(
                     color: isDark ? Colors.grey[400] : Colors.grey[600],
                     fontSize: 14,
                   ),
-                ),
+                )),
                 const SizedBox(height: 12),
                 Text(
                   'The simplest way to scan, create, and manage QR codes. Fast, secure, and privacy-focused.',
@@ -254,6 +254,24 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 buildNavigationRow(
                   context,
+                  icon: Icons.privacy_tip_rounded,
+                  label: 'Privacy Policy',
+                  onTap: () {
+                    launchUrl(Uri.parse('https://tarurinfotech.base44.app/privacy/aiqr'));
+                  },
+                ),
+                buildDivider(context),
+                buildNavigationRow(
+                  context,
+                  icon: Icons.contact_support_rounded,
+                  label: 'Contact Us',
+                  onTap: () {
+                    launchUrl(Uri.parse('https://tarurinfotech.base44.app/contact/product?app=aiqr'));
+                  },
+                ),
+                buildDivider(context),
+                buildNavigationRow(
+                  context,
                   icon: Icons.share_rounded,
                   label: 'Share app with others',
                   onTap: () => settingsController.shareApp(),
@@ -267,7 +285,7 @@ class SettingsScreen extends StatelessWidget {
                     ConfirmationBottomSheet(
                       header: 'Star the project',
                       message:
-                          'If you like aiar QR, please consider giving it a star on GitHub and support the project!\n\nAlso helps you to get latest updates about the project.\n\nConfirm to proceed to GitHub?',
+                          'If you like Ai Qr, please consider giving it a star on GitHub and support the project!\n\nAlso helps you to get latest updates about the project.\n\nConfirm to proceed to GitHub?',
                       onConfirm: () {
                         launchUrl(
                           Uri.parse('https://github.com/jydv402/aiqr'),
@@ -311,7 +329,7 @@ class SettingsScreen extends StatelessWidget {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: isDark ? Colors.grey[700] : Colors.grey[100],
+              color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -334,7 +352,7 @@ class SettingsScreen extends StatelessWidget {
             activeThumbColor: Colors.white,
             activeTrackColor: Theme.of(context).primaryColor,
             inactiveThumbColor: isDark ? Colors.grey[400] : Colors.white,
-            inactiveTrackColor: isDark ? Colors.grey[800] : Colors.grey[300],
+            inactiveTrackColor: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[300],
             thumbIcon: WidgetStatePropertyAll(
               Icon(
                 value ? Icons.check_rounded : Icons.close_rounded,

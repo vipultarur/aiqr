@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:aiqr_app/features/generator/screens/string_qr_creator_screen.dart';
-import 'package:aiqr_app/features/generator/screens/binary_qr_creator_screen.dart';
 import 'package:aiqr_app/core/theme/app_theme.dart';
 import 'package:aiqr_app/core/ads/banner_ad_widget.dart';
 
@@ -23,8 +22,6 @@ class AllQrTypesScreen extends StatelessWidget {
       {'title': 'Social Media', 'subtitle': 'Direct link to your social profiles', 'icon': Icons.share, 'isBinary': false, 'type': 'URL'},
       {'title': 'Plain Text', 'subtitle': 'Simple text messages or notes', 'icon': Icons.notes, 'isBinary': false, 'type': 'Text'},
       {'title': 'UPI Payment', 'subtitle': 'Receive fast payments', 'icon': Icons.currency_rupee, 'isBinary': false, 'type': 'UPI'},
-      {'title': 'PDF Document', 'subtitle': 'Link to a hosted PDF file', 'icon': Icons.picture_as_pdf, 'isBinary': true, 'type': 'PDF'},
-      {'title': 'Image File', 'subtitle': 'Link to a hosted image', 'icon': Icons.image, 'isBinary': true, 'type': 'Image'},
     ];
 
     return Scaffold(
@@ -38,7 +35,7 @@ class AllQrTypesScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
-              backgroundColor: isDark ? Colors.grey[800] : Colors.white,
+              backgroundColor: isDark ? Theme.of(context).colorScheme.tertiary : Colors.white,
               child: Icon(Icons.person, color: Theme.of(context).primaryColor),
             ),
           )
@@ -61,9 +58,9 @@ class AllQrTypesScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: isDark ? Colors.grey[900] : Colors.white,
+                  color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
                   borderRadius: BorderRadius.circular(30),
-                  border: isDark ? Border.all(color: Colors.grey[800]!) : null,
+                  border: isDark ? Border.all(color: Theme.of(context).colorScheme.tertiary) : null,
                   boxShadow: [
                     if (!isDark) BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4))
                   ]
@@ -90,11 +87,7 @@ class AllQrTypesScreen extends StatelessWidget {
                     context, 
                     option,
                     () {
-                      if (option['isBinary'] == true) {
-                        Get.to<void>(() => BinaryQrCreatorScreen(initialType: option['type'] as String));
-                      } else {
-                        Get.to<void>(() => StringQrCreatorScreen(initialType: option['type'] as String));
-                      }
+                      Get.to<void>(() => StringQrCreatorScreen(initialType: option['type'] as String));
                     }
                   );
                 },
@@ -177,7 +170,7 @@ class AllQrTypesScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: isDark ? Colors.grey[800] : const Color(0xFFF3F0FF),
+                color: isDark ? Theme.of(context).colorScheme.tertiary : const Color(0xFFF3F0FF),
                 shape: BoxShape.circle,
               ),
               child: Icon(

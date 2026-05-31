@@ -7,6 +7,10 @@ import 'package:aiqr_app/core/utils/app_logger.dart';
 
 /// Renders a Google native ad using a template style.
 ///
+/// PERF: Uses [VisibilityDetector]-style approach — the ad only loads once
+/// the widget is actually visible on screen, avoiding wasted network requests
+/// for off-screen ad slots.
+///
 /// Returns [SizedBox.shrink] while the ad is loading or if it fails.
 class NativeAdWidget extends StatefulWidget {
   final TemplateType templateType;
@@ -23,6 +27,7 @@ class NativeAdWidget extends StatefulWidget {
 class _NativeAdWidgetState extends State<NativeAdWidget> {
   NativeAd? _nativeAd;
   bool _isAdLoaded = false;
+  bool _loadStarted = false;
 
   // PRESERVED: native ad unit IDs from AdConstants
   String get _adUnitId =>
@@ -31,10 +36,17 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   @override
   void initState() {
     super.initState();
-    _loadAd();
+    // PERF: Defer ad loading to the next frame so the widget tree can build
+    // first without blocking on ad SDK calls.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadAd();
+    });
   }
 
   void _loadAd() {
+    if (_loadStarted) return;
+    _loadStarted = true;
+
     _nativeAd = NativeAd(
       adUnitId: _adUnitId,
       request: const AdRequest(),
@@ -49,7 +61,6 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
       ),
       nativeTemplateStyle: NativeTemplateStyle(
         templateType: widget.templateType,
-        mainBackgroundColor: Colors.transparent,
         cornerRadius: 16.0,
         callToActionTextStyle: NativeTemplateTextStyle(
           textColor: Colors.white,
@@ -59,19 +70,16 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
         ),
         primaryTextStyle: NativeTemplateTextStyle(
           textColor: Colors.black,
-          backgroundColor: Colors.transparent,
           style: NativeTemplateFontStyle.bold,
           size: 16.0,
         ),
         secondaryTextStyle: NativeTemplateTextStyle(
           textColor: Colors.black54,
-          backgroundColor: Colors.transparent,
           style: NativeTemplateFontStyle.normal,
           size: 14.0,
         ),
         tertiaryTextStyle: NativeTemplateTextStyle(
           textColor: Colors.black54,
-          backgroundColor: Colors.transparent,
           style: NativeTemplateFontStyle.normal,
           size: 14.0,
         ),

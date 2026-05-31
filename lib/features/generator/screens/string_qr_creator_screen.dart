@@ -6,6 +6,8 @@ import 'package:aiqr_app/core/widgets/gradient_button.dart';
 import 'package:aiqr_app/core/ads/banner_ad_widget.dart';
 import 'package:aiqr_app/core/ads/native_ad_widget.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
 
 /// Input screen for string-based QR types: URL, Text, Email, Wi-Fi, Number, Map.
 ///
@@ -126,7 +128,7 @@ class _WifiFields extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: AppDimensions.md, vertical: AppDimensions.xs),
           decoration: BoxDecoration(
-            color: isDark ? Colors.grey[800] : Colors.grey[100],
+            color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
             borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
           ),
           child: Obx(() => DropdownButtonHideUnderline(
@@ -134,7 +136,7 @@ class _WifiFields extends StatelessWidget {
               value: c.wifiEncryption.value,
               isExpanded: true,
               icon: Icon(Icons.arrow_drop_down, color: Colors.grey[400]),
-              dropdownColor: isDark ? Colors.grey[800] : Colors.white,
+              dropdownColor: isDark ? Theme.of(context).colorScheme.tertiary : Colors.white,
               // PRESERVED: Wi-Fi encryption options
               items: ['WPA/WPA2', 'WPA3', 'WEP', 'None', 'Raw']
                   .map((v) => DropdownMenuItem(
@@ -171,29 +173,46 @@ class _NumberFields extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: _TextField(
-                controller: c.countryCodeController,
-                hint: 'Code',
-                icon: Icons.public,
-                isDark: isDark,
+        Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.md, vertical: AppDimensions.xs),
+          decoration: BoxDecoration(
+            color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
+            borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+          ),
+          child: IntlPhoneField(
+            decoration: InputDecoration(
+              hintText: 'Phone Number',
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.grey[400], fontFamily: 'GSansFlex'),
+            ),
+            initialCountryCode: 'US',
+            dropdownIcon: Icon(Icons.arrow_drop_down, color: Colors.grey[400]),
+            style: TextStyle(color: isDark ? Colors.white : Colors.black87),
+            dropdownTextStyle: TextStyle(color: isDark ? Colors.white : Colors.black87),
+            pickerDialogStyle: PickerDialogStyle(
+              backgroundColor: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
+              countryCodeStyle: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87),
+              countryNameStyle: TextStyle(color: isDark ? Colors.white : Colors.black87, fontFamily: 'GSansFlex'),
+              searchFieldCursorColor: Theme.of(context).primaryColor,
+              searchFieldInputDecoration: InputDecoration(
+                hintText: 'Search Country',
+                hintStyle: TextStyle(color: Colors.grey[400], fontFamily: 'GSansFlex'),
+                prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
+                filled: true,
+                fillColor: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
-            const SizedBox(width: AppDimensions.sm),
-            Expanded(
-              flex: 3,
-              child: _TextField(
-                controller: c.numberController,
-                hint: 'Phone Number',
-                icon: Icons.phone,
-                isDark: isDark,
-                keyboardType: TextInputType.phone,
-              ),
-            ),
-          ],
+            onChanged: (phone) {
+              c.countryCodeController.text = phone.countryCode;
+              c.numberController.text = phone.number;
+            },
+          ),
         ),
         const SizedBox(height: AppDimensions.md),
       ],
@@ -298,7 +317,7 @@ class _TextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
           horizontal: AppDimensions.md, vertical: AppDimensions.xs),
       decoration: BoxDecoration(
-        color: isDark ? Colors.grey[800] : Colors.grey[100],
+        color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
         borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
       ),
       child: TextField(
@@ -331,7 +350,7 @@ class _TitleField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
           horizontal: AppDimensions.md, vertical: AppDimensions.xs),
       decoration: BoxDecoration(
-        color: isDark ? Colors.grey[800] : Colors.grey[100],
+        color: isDark ? Theme.of(context).colorScheme.tertiary : Colors.grey[100],
         borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
       ),
       child: TextField(
