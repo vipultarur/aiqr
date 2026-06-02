@@ -11,8 +11,8 @@ class AnimatedScannerFrame extends StatefulWidget {
     super.key,
     this.width = 250,
     this.height = 250,
-    this.cornerLength = 32,
-    this.cornerWidth = 4,
+    this.cornerLength = 40,
+    this.cornerWidth = 5,
     this.isScanning = true,
   });
 
@@ -30,19 +30,16 @@ class _AnimatedScannerFrameState extends State<AnimatedScannerFrame>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 2000),
     );
 
     if (widget.isScanning) {
       _animationController.repeat(reverse: true);
     }
 
-    // Margin from top/bottom inside the container
-    const double margin = 24;
-    // Height of the scanning line itself
+    const double margin = 16;
     const double lineHeight = 4.0;
 
-    // Animate from top margin to bottom margin
     _positionAnimation =
         Tween<double>(
           begin: margin,
@@ -75,88 +72,111 @@ class _AnimatedScannerFrameState extends State<AnimatedScannerFrame>
 
   @override
   Widget build(BuildContext context) {
+    // Using Theme primary color for a vibrant, stylish look
+    final Color primaryColor = Theme.of(context).colorScheme.primary;
+
     return Container(
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.5),
-          width: 2,
-        ),
         borderRadius: BorderRadius.circular(32),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.1),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
       ),
       child: Stack(
         children: [
+          // Background soft glow
+          Center(
+            child: Container(
+              width: widget.width,
+              height: widget.height,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                    color: primaryColor.withValues(alpha: 0.15),
+                    blurRadius: 40,
+                    spreadRadius: 10,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          
           // Corner accents
-          _buildCorner(Alignment.topLeft),
-          _buildCorner(Alignment.topRight),
-          _buildCorner(Alignment.bottomLeft),
-          _buildCorner(Alignment.bottomRight),
+          _buildCorner(Alignment.topLeft, primaryColor),
+          _buildCorner(Alignment.topRight, primaryColor),
+          _buildCorner(Alignment.bottomLeft, primaryColor),
+          _buildCorner(Alignment.bottomRight, primaryColor),
 
           // Animated scanning line
-          AnimatedBuilder(
-            animation: _positionAnimation,
-            builder: (context, child) {
-              return Positioned(
-                top: _positionAnimation.value,
-                left: 16,
-                right: 16,
-                child: Container(
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.8),
-                        blurRadius: 15,
-                        spreadRadius: 2,
+          if (widget.isScanning)
+            AnimatedBuilder(
+              animation: _positionAnimation,
+              builder: (context, child) {
+                return Positioned(
+                  top: _positionAnimation.value,
+                  left: 8,
+                  right: 8,
+                  child: Container(
+                    height: 4,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          primaryColor.withValues(alpha: 0.0),
+                          primaryColor,
+                          primaryColor,
+                          primaryColor.withValues(alpha: 0.0),
+                        ],
+                        stops: const [0.0, 0.2, 0.8, 1.0],
                       ),
-                    ],
-                    borderRadius: BorderRadius.circular(2),
+                      boxShadow: [
+                        BoxShadow(
+                          color: primaryColor.withValues(alpha: 0.8),
+                          blurRadius: 12,
+                          spreadRadius: 2,
+                        ),
+                        BoxShadow(
+                          color: primaryColor.withValues(alpha: 0.4),
+                          blurRadius: 24,
+                          spreadRadius: 4,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildCorner(Alignment alignment) {
+  Widget _buildCorner(Alignment alignment, Color color) {
     return Align(
       alignment: alignment,
       child: Container(
         width: widget.cornerLength,
         height: widget.cornerLength,
-        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          border: _getBorder(alignment),
+          border: _getBorder(alignment, color),
           borderRadius: _getBorderRadius(alignment),
         ),
       ),
     );
   }
 
-  Border _getBorder(Alignment alignment) {
-    BorderSide b = BorderSide(color: Colors.white, width: widget.cornerWidth);
+  Border _getBorder(Alignment alignment, Color color) {
+    BorderSide b = BorderSide(color: color, width: widget.cornerWidth);
     if (alignment == Alignment.topLeft) return Border(top: b, left: b);
     if (alignment == Alignment.topRight) return Border(top: b, right: b);
     if (alignment == Alignment.bottomLeft) {
       return Border(bottom: b, left: b);
     }
-    return Border(bottom: b, right: b); // bottomRight
+    return Border(bottom: b, right: b); 
   }
 
   BorderRadius _getBorderRadius(Alignment alignment) {
-    const r = Radius.circular(18);
+    const r = Radius.circular(32);
     if (alignment == Alignment.topLeft) {
       return const BorderRadius.only(topLeft: r);
     }

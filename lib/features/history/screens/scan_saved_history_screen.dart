@@ -8,6 +8,8 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:aiqr_app/core/theme/app_theme.dart';
 import 'package:aiqr_app/routes/app_routes.dart';
 import 'package:aiqr_app/core/ads/banner_ad_widget.dart';
+import 'package:aiqr_app/core/ads/native_ad_widget.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:aiqr_app/models/qr_code_model.dart';
 
 /// History tab: shows scanned and generated QR code records with tab switching.
@@ -246,13 +248,22 @@ class _HistoryListView extends StatelessWidget {
           : controller.generatedHistory;
 
       if (records.isEmpty) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 60),
-          child: Center(
-            child: Text(
-              isScanned ? 'No scanned items yet.' : 'No generated items yet.',
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 60, bottom: 40),
+              child: Center(
+                child: Text(
+                  isScanned ? 'No scanned items yet.' : 'No generated items yet.',
+                  style: const TextStyle(fontFamily: 'GSansFlex', color: Colors.grey),
+                ),
+              ),
             ),
-          ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppDimensions.md),
+              child: NativeAdWidget(templateType: TemplateType.medium),
+            ),
+          ],
         );
       }
 

@@ -25,22 +25,36 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
     _loadBannerAd();
   }
 
+  int _retryCount = 0;
+  static const int _maxRetries = 100;
+
   void _loadBannerAd() {
     _bannerAd = BannerAd(
       adUnitId: AdService.bannerAdUnitId,
-      request: const AdRequest(),
+      request: const AdRequest(
+        keywords: <String>['tools', 'utility', 'qr scanner', 'barcode', 'productivity'],
+      ),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           if (mounted) {
             setState(() {
               _isLoaded = true;
+              _retryCount = 0; // reset on success
             });
           }
         },
         onAdFailedToLoad: (ad, err) {
           debugPrint('BannerAd failed to load: $err');
           ad.dispose();
+          if (_retryCount < _maxRetries) {
+            _retryCount++;
+            Future.delayed(const Duration(seconds: 3), () {
+              if (mounted) {
+                _loadBannerAd();
+              }
+            });
+          }
         },
       ),
     )..load();

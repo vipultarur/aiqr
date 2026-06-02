@@ -1,7 +1,7 @@
 name: aiqr_app
 description: "A modern, fast, and secure QR code scanner and generator. Scan anything, create custom QR codes, and keep track of your history—all in one place."
 publish_to: 'none'
-version: 1.0.3+3
+version: 1.1.1+8
 
 environment:
   sdk: ^3.11.0

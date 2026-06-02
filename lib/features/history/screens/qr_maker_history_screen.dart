@@ -12,6 +12,8 @@ import 'package:aiqr_app/features/generator/screens/string_qr_creator_screen.dar
 import 'package:aiqr_app/features/generator/screens/all_qr_types_screen.dart';
 import 'package:aiqr_app/routes/app_routes.dart';
 import 'package:aiqr_app/core/ads/banner_ad_widget.dart';
+import 'package:aiqr_app/core/ads/native_ad_widget.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:aiqr_app/models/qr_code_model.dart';
 
 /// Home / Make tab: action grid + recent history preview.
@@ -219,14 +221,22 @@ class _EmptyHistoryMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppDimensions.xl),
-      child: Center(
-        child: Text(
-          'No recent QR codes yet.',
-          style: TextStyle(color: Colors.grey[500], fontFamily: 'GSansFlex'),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppDimensions.xl),
+          child: Center(
+            child: Text(
+              'No recent QR codes yet.',
+              style: TextStyle(color: Colors.grey[500], fontFamily: 'GSansFlex'),
+            ),
+          ),
         ),
-      ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.lg),
+          child: NativeAdWidget(templateType: TemplateType.medium),
+        ),
+      ],
     );
   }
 }
