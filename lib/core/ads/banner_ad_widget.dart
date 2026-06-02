@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:aiqr_app/core/ads/ad_service.dart';
@@ -15,6 +17,10 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
     with AutomaticKeepAliveClientMixin {
   BannerAd? _bannerAd;
   bool _isLoaded = false;
+  
+  Timer? _reloadTimer;
+  int _retryCount = 0;
+  static const int _maxRetries = 100;
 
   @override
   bool get wantKeepAlive => true;
@@ -25,10 +31,17 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
     _loadBannerAd();
   }
 
-  int _retryCount = 0;
-  static const int _maxRetries = 100;
+  void _scheduleReload() {
+    _reloadTimer?.cancel();
+    _reloadTimer = Timer(const Duration(seconds: 30), () {
+      if (mounted) {
+        _loadBannerAd();
+      }
+    });
+  }
 
   void _loadBannerAd() {
+    _bannerAd?.dispose();
     _bannerAd = BannerAd(
       adUnitId: AdService.bannerAdUnitId,
       request: const AdRequest(
@@ -42,6 +55,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
               _isLoaded = true;
               _retryCount = 0; // reset on success
             });
+            _scheduleReload();
           }
         },
         onAdFailedToLoad: (ad, err) {
@@ -62,6 +76,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
 
   @override
   void dispose() {
+    _reloadTimer?.cancel();
     _bannerAd?.dispose();
     super.dispose();
   }

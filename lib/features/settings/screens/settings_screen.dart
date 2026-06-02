@@ -276,24 +276,6 @@ class SettingsScreen extends StatelessWidget {
                   label: 'Share app with others',
                   onTap: () => settingsController.shareApp(),
                 ),
-                buildDivider(context),
-                buildNavigationRow(
-                  context,
-                  icon: Icons.star_rounded,
-                  label: 'Star the project',
-                  onTap: () => Get.bottomSheet(
-                    ConfirmationBottomSheet(
-                      header: 'Star the project',
-                      message:
-                          'If you like Ai Qr, please consider giving it a star on GitHub and support the project!\n\nAlso helps you to get latest updates about the project.\n\nConfirm to proceed to GitHub?',
-                      onConfirm: () {
-                        launchUrl(
-                          Uri.parse('https://github.com/jydv402/aiqr'),
-                        );
-                      },
-                    ),
-                  ),
-                ),
               ],
             ),
             isDark,
